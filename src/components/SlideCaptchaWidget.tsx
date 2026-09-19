@@ -49,6 +49,7 @@ export const SlideCaptchaWidget: React.FC<SlideCaptchaWidgetProps> = ({
   const challengeRef = useRef<ChallengeData | null>(null);
   const sliderTrackRef = useRef<HTMLDivElement>(null);
   const clientRef = useRef<SlideCaptchaClient>(new SlideCaptchaClient());
+  const rafIdRef = useRef<number | null>(null);
 
   challengeRef.current = challenge;
   isDraggingRef.current = isDragging;
@@ -80,6 +81,11 @@ export const SlideCaptchaWidget: React.FC<SlideCaptchaWidgetProps> = ({
 
   useEffect(() => {
     loadChallenge();
+    return () => {
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+    };
   }, [loadChallenge]);
 
   // Handle Drag Start
@@ -102,7 +108,7 @@ export const SlideCaptchaWidget: React.FC<SlideCaptchaWidgetProps> = ({
     onTrajectoryChangeRef.current?.(trajectoryRef.current, 0, null);
   };
 
-  // Handle Drag Move (Stable reference, reads from refs)
+  // Handle Drag Move (Direct 1:1 linear direct tracking, RAF synced)
   const handleMove = useCallback((clientX: number, clientY: number) => {
     if (!isDraggingRef.current || !challengeRef.current) return;
 
@@ -110,12 +116,11 @@ export const SlideCaptchaWidget: React.FC<SlideCaptchaWidgetProps> = ({
     const deltaY = clientY - dragStartYRef.current;
 
     const maxDist = challengeRef.current.canvasWidth - challengeRef.current.pieceWidth;
-    // Clamped slide X
+    // Clamped slide X - perfectly linear 1:1 with mouse/finger cursor
     const clampedX = Math.max(0, Math.min(maxDist, deltaX));
     sliderXRef.current = clampedX;
-    setSliderX(clampedX);
 
-    // Record high-precision biometric trajectory point
+    // Record high-precision biometric trajectory point with zero loss
     const currentT = Math.round(performance.now() - dragStartTimeRef.current);
     trajectoryRef.current.push({
       x: Math.round(clampedX * 10) / 10,
@@ -123,7 +128,14 @@ export const SlideCaptchaWidget: React.FC<SlideCaptchaWidgetProps> = ({
       t: currentT,
     });
 
-    onTrajectoryChangeRef.current?.(trajectoryRef.current, clampedX, null);
+    // Schedule RAF for 60/120/144Hz direct frame synchronization without thread stutter
+    if (rafIdRef.current === null) {
+      rafIdRef.current = requestAnimationFrame(() => {
+        rafIdRef.current = null;
+        setSliderX(sliderXRef.current);
+        onTrajectoryChangeRef.current?.(trajectoryRef.current, sliderXRef.current, null);
+      });
+    }
   }, []);
 
   // Handle Drag End & Verification (Stable reference, reads from refs)
@@ -132,7 +144,14 @@ export const SlideCaptchaWidget: React.FC<SlideCaptchaWidgetProps> = ({
     setIsDragging(false);
     isDraggingRef.current = false;
 
+    // Flush any pending RAF update
+    if (rafIdRef.current !== null) {
+      cancelAnimationFrame(rafIdRef.current);
+      rafIdRef.current = null;
+    }
+
     const currentX = sliderXRef.current;
+    setSliderX(currentX);
     const currentChallenge = challengeRef.current;
 
     if (currentX < 10) {
@@ -275,21 +294,30 @@ export const SlideCaptchaWidget: React.FC<SlideCaptchaWidgetProps> = ({
               referrerPolicy="no-referrer"
             />
 
-            {/* Draggable Puzzle Piece */}
+            {/* Draggable Puzzle Piece (Direct 1:1 linear tracking with zero CSS lag) */}
             <div
               id="captcha-puzzle-piece"
-              className="absolute top-0 left-0 pointer-events-none transition-transform will-change-transform"
+              onMouseDown={(e) => handleStart(e.clientX, e.clientY)}
+              onTouchStart={(e) => {
+                if (e.touches.length > 0) {
+                  handleStart(e.touches[0].clientX, e.touches[0].clientY);
+                }
+              }}
+              className={`absolute top-0 left-0 cursor-grab active:cursor-grabbing will-change-transform select-none ${
+                isDragging ? 'transition-none' : 'transition-transform duration-300 ease-out'
+              }`}
               style={{
                 transform: `translateX(${sliderX}px)`,
                 width: `${challenge.canvasWidth}px`,
                 height: `${challenge.canvasHeight}px`,
                 filter: status === 'failed' ? 'drop-shadow(0 0 6px rgba(244,63,94,0.9))' : status === 'success' ? 'drop-shadow(0 0 8px rgba(16,185,129,0.9))' : 'drop-shadow(0 4px 6px rgba(0,0,0,0.7))',
+                touchAction: 'none',
               }}
             >
               <img
                 src={challenge.puzzlePieceImage}
                 alt="Puzzle Piece"
-                className="w-full h-full pointer-events-none"
+                className="w-full h-full pointer-events-none select-none"
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -336,20 +364,22 @@ export const SlideCaptchaWidget: React.FC<SlideCaptchaWidgetProps> = ({
               : 'bg-slate-950 border-slate-800'
           }`}
         >
-          {/* Active Highlight Bar */}
+          {/* Active Highlight Bar (Instant linear response without transition lag) */}
           <div
-            className={`absolute left-0 top-0 bottom-0 transition-colors ${
+            className={`absolute left-0 top-0 bottom-0 ${
+              isDragging ? 'transition-none' : 'transition-all duration-300 ease-out'
+            } ${
               status === 'success'
                 ? 'bg-emerald-500/20'
                 : status === 'failed'
                 ? 'bg-rose-500/20'
                 : 'bg-emerald-500/15'
             }`}
-            style={{ width: `${sliderX + 24}px` }}
+            style={{ width: `${sliderX + 20}px` }}
           />
 
           {/* Guide Placeholder Text */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none text-xs text-slate-400 font-medium">
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none text-xs text-slate-400 font-medium select-none">
             {status === 'idle' && (
               <span className="flex items-center space-x-1.5 opacity-80">
                 <span>按住滑块，拖动完成拼图</span>
@@ -366,7 +396,7 @@ export const SlideCaptchaWidget: React.FC<SlideCaptchaWidgetProps> = ({
             {status === 'failed' && <span className="text-rose-400 font-medium">{errorMsg || '验证失败'}</span>}
           </div>
 
-          {/* Draggable Button Handle */}
+          {/* Draggable Button Handle (1:1 direct tracking, zero CSS lag) */}
           <div
             id="captcha-slider-handle"
             role="slider"
@@ -380,13 +410,15 @@ export const SlideCaptchaWidget: React.FC<SlideCaptchaWidgetProps> = ({
                 handleStart(e.touches[0].clientX, e.touches[0].clientY);
               }
             }}
-            className={`w-10 h-9 rounded-lg flex items-center justify-center cursor-grab active:cursor-grabbing shadow-md z-10 transition-shadow ${
+            className={`w-10 h-9 rounded-lg flex items-center justify-center cursor-grab active:cursor-grabbing shadow-md z-10 will-change-transform select-none ${
+              isDragging ? 'transition-none' : 'transition-transform duration-300 ease-out'
+            } ${
               status === 'success'
                 ? 'bg-emerald-500 text-slate-950 shadow-emerald-500/40'
                 : status === 'failed'
                 ? 'bg-rose-500 text-white shadow-rose-500/40'
                 : isDragging
-                ? 'bg-emerald-400 text-slate-950 shadow-emerald-500/50 scale-105'
+                ? 'bg-emerald-400 text-slate-950 shadow-emerald-500/50'
                 : 'bg-slate-700 hover:bg-slate-600 text-slate-200 border border-slate-600'
             }`}
             style={{
