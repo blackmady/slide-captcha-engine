@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" width="900" height="360">
+  <defs>
+    <linearGradient id="bioBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050811"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="360" fill="url(#bioBg)" />
+
+  <text x="450" y="35" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">
+    人机生物动力学轨迹判别模型 (Human vs Bot Motor Control)
+  </text>
+  <text x="450" y="55" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" text-anchor="middle">
+    多维度对抗自动化注入脚本：菲茨减速定律、微小手部震颤熵、加速度二阶导数连续性
+  </text>
+
+  <!-- Left: Human Motor Trajectory (PASS) -->
+  <g transform="translate(50, 80)">
+    <rect width="380" height="250" rx="12" fill="#064e3b" fill-opacity="0.2" stroke="#10b981" stroke-width="1.5"/>
+    <rect width="380" height="34" rx="12" fill="#064e3b" fill-opacity="0.6"/>
+    <text x="190" y="22" fill="#6ee7b7" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">
+      ✓ 真人手指 / 鼠标拖拽 (Human Pattern)
+    </text>
+
+    <!-- Visual Curve -->
+    <g transform="translate(20, 50)">
+      <rect width="340" height="85" rx="8" fill="#020617" stroke="#1e293b" stroke-width="1"/>
+      <!-- S-curve with jitter -->
+      <path d="M 15 50 Q 80 43 140 55 T 230 46 T 300 50 T 325 50" fill="none" stroke="#10b981" stroke-width="2"/>
+      <circle cx="15" cy="50" r="3" fill="#10b981"/>
+      <circle cx="325" cy="50" r="4" fill="#38bdf8"/>
+      <text x="15" y="20" fill="#34d399" font-family="monospace" font-size="10">2D 轨迹：起步平缓 → 伴随肌肉微颤 → 减速微调</text>
+    </g>
+
+    <!-- Checklist -->
+    <g transform="translate(25, 150)">
+      <text x="0" y="15" fill="#a7f3d0" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11">
+        • <tspan font-weight="bold">菲茨定律特征：</tspan>终端逼近缺口时产生显著减速观察期
+      </text>
+      <text x="0" y="38" fill="#a7f3d0" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11">
+        • <tspan font-weight="bold">手部震颤熵：</tspan>自然肌肉微小颤动熵 &gt; 1.5 bit，Y 轴极差 3~18px
+      </text>
+      <text x="0" y="61" fill="#a7f3d0" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11">
+        • <tspan font-weight="bold">生理耗时基线：</tspan>拖拽总耗时 250ms ~ 3000ms，符合人类神经反射
+      </text>
+      <text x="0" y="84" fill="#34d399" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="bold">
+        判决结论: 放行，核发有效 Ticket (评分 90~100)
+      </text>
+    </g>
+  </g>
+
+  <!-- Right: Bot / Script Attacks (BLOCKED) -->
+  <g transform="translate(470, 80)">
+    <rect width="380" height="250" rx="12" fill="#881337" fill-opacity="0.2" stroke="#f43f5e" stroke-width="1.5"/>
+    <rect width="380" height="34" rx="12" fill="#881337" fill-opacity="0.6"/>
+    <text x="190" y="22" fill="#fda4af" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">
+      ✗ 自动化脚本与黑产对抗 (Bot Vectors)
+    </text>
+
+    <!-- Visual Curve -->
+    <g transform="translate(20, 50)">
+      <rect width="340" height="85" rx="8" fill="#020617" stroke="#1e293b" stroke-width="1"/>
+      <!-- Perfectly straight unnatural line or instant jump -->
+      <line x1="15" y1="50" x2="325" y2="50" stroke="#f43f5e" stroke-width="2"/>
+      <circle cx="15" cy="50" r="3" fill="#f43f5e"/>
+      <circle cx="325" cy="50" r="4" fill="#f43f5e"/>
+      <text x="15" y="20" fill="#f43f5e" font-family="monospace" font-size="10">作弊轨迹：绝对机械直线 (dy ≡ 0) 或 瞬时位移 (t &lt; 80ms)</text>
+    </g>
+
+    <!-- Checklist -->
+    <g transform="translate(25, 150)">
+      <text x="0" y="15" fill="#fecdd3" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11">
+        • <tspan font-weight="bold">极速瞬移脚本：</tspan>耗时低于 180ms，无连续时序过程 → 即刻拦截
+      </text>
+      <text x="0" y="38" fill="#fecdd3" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11">
+        • <tspan font-weight="bold">机械匀速脚本：</tspan>Y 轴极差为 0，加速度方差为 0 → 即刻拦截
+      </text>
+      <text x="0" y="61" fill="#fecdd3" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11">
+        • <tspan font-weight="bold">数学贝塞尔曲线：</tspan>平滑但无手部微颤熵，无终端减速微调 → 即刻拦截
+      </text>
+      <text x="0" y="84" fill="#f43f5e" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="bold">
+        判决结论: 拦截拒绝，记录风控作弊特征
+      </text>
+    </g>
+  </g>
+</svg>

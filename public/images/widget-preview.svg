@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 480" width="860" height="480">
+  <defs>
+    <linearGradient id="widgetBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d18"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <rect width="860" height="480" fill="#020617"/>
+
+  <!-- Left: The Interactive Captcha Widget -->
+  <g transform="translate(60, 40)">
+    <!-- Card Frame -->
+    <rect width="360" height="400" rx="16" fill="url(#widgetBg)" stroke="#1e293b" stroke-width="1.5" filter="url(#softShadow)"/>
+
+    <!-- Header -->
+    <g transform="translate(20, 20)">
+      <circle cx="12" cy="12" r="10" fill="#10b981" fill-opacity="0.2"/>
+      <path d="M 9 12 C 9 9, 15 9, 15 12 C 15 15, 12 15, 12 18" fill="none" stroke="#10b981" stroke-width="2"/>
+      <text x="30" y="16" fill="#f1f5f9" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" font-weight="bold">安全滑动验证</text>
+      
+      <rect x="130" y="4" width="80" height="22" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="0.8"/>
+      <text x="170" y="18" fill="#34d399" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">生物行为识别</text>
+
+      <path d="M 305 10 A 6 6 0 1 1 300 16" fill="none" stroke="#64748b" stroke-width="1.8" stroke-linecap="round"/>
+      <polyline points="298,13 300,16 304,15" fill="none" stroke="#64748b" stroke-width="1.8" stroke-linecap="round"/>
+    </g>
+
+    <!-- Canvas -->
+    <g transform="translate(20, 60)">
+      <rect width="320" height="180" rx="10" fill="#030712" stroke="#1e293b" stroke-width="1"/>
+      <!-- Background Aurora Scene -->
+      <path d="M 0 40 Q 80 10 160 50 T 320 30 L 320 180 L 0 180 Z" fill="#064e3b" fill-opacity="0.7"/>
+      <path d="M 0 90 Q 120 60 220 110 T 320 80 L 320 180 L 0 180 Z" fill="#0f172a"/>
+      <polygon points="40,180 70,120 100,180" fill="#090d16"/>
+      <polygon points="120,180 150,110 180,180" fill="#090d16"/>
+      <polygon points="210,180 250,90 290,180" fill="#090d16"/>
+
+      <!-- Cutout Slot at targetX=204 -->
+      <path d="M 204 45 h 15 a 6 6 0 0 1 12 0 h 15 v 15 a 6 6 0 0 0 0 12 v 15 h -15 a 6 6 0 0 1 -12 0 h -15 v -15 a 6 6 0 0 0 0 -12 z" fill="#000000" fill-opacity="0.8" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+      <!-- Draggable Piece in transit (e.g. at X=140) -->
+      <g transform="translate(140, 45)">
+        <path d="M 0 0 h 15 a 6 6 0 0 1 12 0 h 15 v 15 a 6 6 0 0 0 0 12 v 15 h -15 a 6 6 0 0 1 -12 0 h -15 v -15 a 6 6 0 0 0 0 -12 z" fill="#064e3b" stroke="#ffffff" stroke-width="2" filter="url(#softShadow)"/>
+        <!-- Inner scene slice preview -->
+        <circle cx="21" cy="21" r="5" fill="#10b981"/>
+      </g>
+    </g>
+
+    <!-- Slider Track -->
+    <g transform="translate(20, 255)">
+      <rect width="320" height="44" rx="10" fill="#020617" stroke="#1e293b" stroke-width="1"/>
+      <rect width="160" height="44" rx="10" fill="#10b981" fill-opacity="0.15"/>
+      <text x="175" y="27" fill="#34d399" font-family="monospace" font-size="12" text-anchor="middle">X: 140px · 采样: 38 点</text>
+      
+      <!-- Handle -->
+      <g transform="translate(125, 2)">
+        <rect width="40" height="40" rx="8" fill="#34d399"/>
+        <line x1="16" y1="14" x2="16" y2="26" stroke="#040711" stroke-width="2" stroke-linecap="round"/>
+        <line x1="20" y1="12" x2="20" y2="28" stroke="#040711" stroke-width="2" stroke-linecap="round"/>
+        <line x1="24" y1="14" x2="24" y2="26" stroke="#040711" stroke-width="2" stroke-linecap="round"/>
+      </g>
+    </g>
+
+    <!-- Footer Security Spec -->
+    <g transform="translate(20, 320)">
+      <text x="0" y="20" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12">🛡️ 服务端高防伪 HMAC 签名</text>
+      <text x="320" y="20" fill="#94a3b8" font-family="monospace" font-size="12" text-anchor="end">公差: ±4px</text>
+    </g>
+
+    <!-- Pass Pill -->
+    <g transform="translate(20, 350)">
+      <rect width="320" height="34" rx="8" fill="#064e3b" fill-opacity="0.4" stroke="#10b981" stroke-width="1" stroke-opacity="0.4"/>
+      <text x="160" y="22" fill="#34d399" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="600" text-anchor="middle">✓ 生物微颤与菲茨减速律正常 · 判定为人类手势</text>
+    </g>
+  </g>
+
+  <!-- Right: Real-time Telemetry & Trajectory Analysis HUD -->
+  <g transform="translate(460, 40)">
+    <rect width="350" height="400" rx="16" fill="url(#widgetBg)" stroke="#1e293b" stroke-width="1.5" filter="url(#softShadow)"/>
+
+    <!-- Title -->
+    <g transform="translate(20, 25)">
+      <text x="0" y="15" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" font-weight="bold">真实拖拽生物动力学曲线</text>
+      <text x="0" y="32" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11">2D 轨迹微颤分布与瞬时速度钟形图</text>
+    </g>
+
+    <!-- 2D Trajectory Canvas -->
+    <g transform="translate(20, 75)">
+      <rect width="310" height="100" rx="8" fill="#020617" stroke="#1e293b" stroke-width="1"/>
+      <line x1="10" y1="50" x2="300" y2="50" stroke="#1e293b" stroke-dasharray="4,4"/>
+      <!-- Natural human trajectory with jitter -->
+      <path d="M 15 50 Q 60 46 100 52 T 180 47 T 240 51 T 290 49" fill="none" stroke="#10b981" stroke-width="2"/>
+      <circle cx="15" cy="50" r="3" fill="#10b981"/>
+      <circle cx="290" cy="49" r="4" fill="#38bdf8"/>
+      <text x="15" y="20" fill="#64748b" font-family="monospace" font-size="10">X 轴拖拽位移轨迹 (伴随微小自然 Y 轴抖动)</text>
+    </g>
+
+    <!-- Velocity Bell Curve (Fitts's Law) -->
+    <g transform="translate(20, 190)">
+      <rect width="310" height="100" rx="8" fill="#020617" stroke="#1e293b" stroke-width="1"/>
+      <!-- Bell curve: slow start, fast slide, deceleration phase -->
+      <path d="M 15 85 Q 70 80 110 30 T 180 35 Q 230 55 290 85" fill="none" stroke="#38bdf8" stroke-width="2"/>
+      <text x="15" y="20" fill="#64748b" font-family="monospace" font-size="10">瞬时速度 V(t): 菲茨减速微调期匹配</text>
+      <text x="210" y="80" fill="#10b981" font-family="monospace" font-size="9">减速微调区 ↓</text>
+    </g>
+
+    <!-- Metrics Checklist -->
+    <g transform="translate(25, 310)">
+      <circle cx="5" cy="10" r="4" fill="#10b981"/>
+      <text x="16" y="14" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11">
+        手部震颤熵 (Tremor Entropy): <tspan fill="#34d399" font-weight="bold">2.41 bit</tspan> (正常)
+      </text>
+
+      <circle cx="5" cy="35" r="4" fill="#10b981"/>
+      <text x="16" y="39" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11">
+        滑动耗时 (Duration): <tspan fill="#34d399" font-weight="bold">682 ms</tspan> (阻断瞬移)
+      </text>
+
+      <circle cx="5" cy="60" r="4" fill="#10b981"/>
+      <text x="16" y="64" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11">
+        综合安全评分: <tspan fill="#34d399" font-weight="bold">96 / 100</tspan> (生成短期 Ticket)
+      </text>
+    </g>
+  </g>
+</svg>

@@ -11,10 +11,11 @@ import {
   ArrowRight,
   ExternalLink,
   BookOpen,
+  ImageIcon,
 } from 'lucide-react';
 
 export const ApiDocs: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'nodejs-sdk' | 'rest-api' | 'frontend' | 'multilang'>('overview');
+  const [activeTab, setActiveTab] = useState<'readme' | 'overview' | 'nodejs-sdk' | 'rest-api' | 'frontend' | 'multilang'>('readme');
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   // Interactive API tester states
@@ -75,6 +76,15 @@ export const ApiDocs: React.FC = () => {
         {/* Tab Navigation */}
         <div className="flex flex-wrap gap-1.5 p-1 bg-slate-950 rounded-xl border border-slate-800 text-xs">
           <button
+            onClick={() => setActiveTab('readme')}
+            className={`px-3 py-1.5 rounded-lg font-medium transition-all flex items-center space-x-1.5 ${
+              activeTab === 'readme' ? 'bg-emerald-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <ImageIcon className="w-3.5 h-3.5" />
+            <span>项目 README 与效果图</span>
+          </button>
+          <button
             onClick={() => setActiveTab('overview')}
             className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
               activeTab === 'overview' ? 'bg-emerald-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
@@ -116,6 +126,186 @@ export const ApiDocs: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {/* Tab 0: Project README & Visual Effects Showcase */}
+      {activeTab === 'readme' && (
+        <div className="space-y-8 animate-in fade-in duration-300">
+          {/* Hero Banner */}
+          <div className="rounded-2xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-950">
+            <img
+              src="/images/hero-banner.svg"
+              alt="SlideCaptcha Hero Banner"
+              className="w-full h-auto object-cover"
+              referrerPolicy="no-referrer"
+            />
+          </div>
+
+          {/* Quick Badges Bar */}
+          <div className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-xl bg-slate-950/80 border border-slate-800">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="px-2.5 py-1 rounded-md text-xs font-mono bg-emerald-950/60 border border-emerald-500/40 text-emerald-300">
+                Node.js 18+ / 20+ / 22+
+              </span>
+              <span className="px-2.5 py-1 rounded-md text-xs font-mono bg-blue-950/60 border border-blue-500/40 text-blue-300">
+                Zero Native C++ Canvas
+              </span>
+              <span className="px-2.5 py-1 rounded-md text-xs font-mono bg-purple-950/60 border border-purple-500/40 text-purple-300">
+                HMAC-SHA256 Two-Stage
+              </span>
+              <span className="px-2.5 py-1 rounded-md text-xs font-mono bg-amber-950/60 border border-amber-500/40 text-amber-300">
+                Fitts's Law Biometrics
+              </span>
+            </div>
+            <a
+              href="#readme-markdown"
+              className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center space-x-1 font-medium"
+            >
+              <span>查看完整 Markdown 文档</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+
+          {/* Visual Showcase Gallery */}
+          <div className="space-y-6">
+            <div className="border-b border-slate-800 pb-2">
+              <h3 className="text-base font-bold text-slate-100 flex items-center space-x-2">
+                <ImageIcon className="w-4 h-4 text-emerald-400" />
+                <span>效果图展示 (Visual Effects Gallery)</span>
+              </h3>
+              <p className="text-xs text-slate-400 mt-1">
+                高清矢量图解，直观展示滑动验证码的前端交互、生物轨迹对抗及服务端双重鉴权架构。
+              </p>
+            </div>
+
+            {/* Visual 1: Widget & Telemetry */}
+            <div className="bg-slate-950/90 rounded-2xl p-5 border border-slate-800 space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-sm font-semibold text-slate-200">
+                    图 1：前端滑动拼图组件与实时生物动力学遥测
+                  </h4>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    1:1 绝对线性直接操纵，零 CSS 缓动迟滞，支持按住滑轨或直接拖动拼图碎片
+                  </p>
+                </div>
+                <span className="text-[11px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/30">
+                  Direct Manipulation
+                </span>
+              </div>
+              <div className="rounded-xl overflow-hidden border border-slate-800/80 bg-slate-950 flex justify-center">
+                <img
+                  src="/images/widget-preview.svg"
+                  alt="Widget Preview"
+                  className="w-full max-w-4xl h-auto"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+            </div>
+
+            {/* Visual 2: Biometrics Model */}
+            <div className="bg-slate-950/90 rounded-2xl p-5 border border-slate-800 space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-sm font-semibold text-slate-200">
+                    图 2：真人肌肉动力学手势 vs 自动化脚本对抗模型
+                  </h4>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    基于菲茨定律终端减速观察期、微颤信息熵与加速度二阶导数连续性特征判决
+                  </p>
+                </div>
+                <span className="text-[11px] font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/30">
+                  Fitts's Law Engine
+                </span>
+              </div>
+              <div className="rounded-xl overflow-hidden border border-slate-800/80 bg-slate-950 flex justify-center">
+                <img
+                  src="/images/biometrics-analysis.svg"
+                  alt="Biometrics Analysis"
+                  className="w-full max-w-4xl h-auto"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+            </div>
+
+            {/* Visual 3: Two-Stage Architecture */}
+            <div className="bg-slate-950/90 rounded-2xl p-5 border border-slate-800 space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-sm font-semibold text-slate-200">
+                    图 3：服务端双重核销与用后即焚防重放架构
+                  </h4>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Stage 1 前端滑块换取 Ticket + Stage 2 宿主后端 API 二次核销消费，防绕过撞库
+                  </p>
+                </div>
+                <span className="text-[11px] font-mono text-purple-400 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-500/30">
+                  Two-Stage Security
+                </span>
+              </div>
+              <div className="rounded-xl overflow-hidden border border-slate-800/80 bg-slate-950 flex justify-center">
+                <img
+                  src="/images/architecture-flow.svg"
+                  alt="Architecture Flow"
+                  className="w-full max-w-4xl h-auto"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Complete README Content Card */}
+          <div id="readme-markdown" className="bg-slate-950/90 rounded-2xl p-6 border border-slate-800 space-y-5">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div className="flex items-center space-x-2">
+                <FileText className="w-5 h-5 text-emerald-400" />
+                <h3 className="text-sm font-bold text-slate-100">README.md 核心文档速查</h3>
+              </div>
+              <button
+                onClick={() =>
+                  copyToClipboard(
+                    `# SlideCaptcha 行为验证码系统\n\n- 高可用滑动拼图\n- 生物动力学轨迹识别\n- 服务端二次核销\n- 零 C++ 依赖开箱即用`,
+                    'readme-copy'
+                  )
+                }
+                className="text-xs text-slate-400 hover:text-slate-200 flex items-center space-x-1 px-2.5 py-1 rounded bg-slate-800 border border-slate-700"
+              >
+                {copiedId === 'readme-copy' ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-400" />
+                    <span className="text-emerald-400">已复制标题</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5" />
+                    <span>复制摘要</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            <div className="prose prose-invert max-w-none text-xs leading-relaxed space-y-4 text-slate-300">
+              <p>
+                <strong className="text-slate-100">SlideCaptcha</strong> 是一套高可用的企业级滑动拼图人机行为验证码系统。核心采用自研纯矢量 SVG 动态切片技术，彻底摆脱系统级 C++ 编译依赖；配套高精度生物手势轨迹引擎，基于菲茨定律实时识别真人微颤与自动化脚本。
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                <div className="p-3 bg-slate-900 rounded-lg border border-slate-800">
+                  <span className="font-semibold text-emerald-400 block mb-1">⚡ 零 C++ 编译套件依赖</span>
+                  <span className="text-slate-400">
+                    无论在 Linux、Alpine Docker 还是 Serverless 容器，无需安装 node-gyp / cairo 即可 20ms 冷启动。
+                  </span>
+                </div>
+                <div className="p-3 bg-slate-900 rounded-lg border border-slate-800">
+                  <span className="font-semibold text-emerald-400 block mb-1">🔒 目标缺口坐标不出域</span>
+                  <span className="text-slate-400">
+                    targetX 绝对坐标由 HMAC-SHA256 密文封装，网络下发内容绝无实际坐标，防逆向破解。
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Tab 1: Architecture & Sequence */}
       {activeTab === 'overview' && (

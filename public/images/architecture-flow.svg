@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" width="960" height="420">
+  <defs>
+    <linearGradient id="flowBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050813"/>
+      <stop offset="100%" stop-color="#0a1020"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="420" fill="url(#flowBg)" />
+
+  <!-- Diagram Title -->
+  <text x="480" y="45" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="bold" text-anchor="middle">
+    SlideCaptcha 双重鉴权体系与用后即焚防重放架构
+  </text>
+  <text x="480" y="70" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" text-anchor="middle">
+    前端人机行为识别 (Stage 1) + 宿主后端二次核销鉴权 (Stage 2)
+  </text>
+
+  <!-- Node 1: Browser Client (Left) -->
+  <g transform="translate(60, 110)">
+    <rect width="220" height="260" rx="12" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+    <rect width="220" height="36" rx="12" fill="#1e293b"/>
+    <text x="110" y="24" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">
+      🌐 前端客户端 (Web/H5/App)
+    </text>
+
+    <!-- Content inside node -->
+    <g transform="translate(15, 55)">
+      <text x="0" y="15" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12">1. 渲染 SlideCaptchaWidget</text>
+      <text x="0" y="40" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12">2. 采集 [x, y, t] 高精度轨迹</text>
+      <text x="0" y="65" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12">3. 提交一次验证，换取 Ticket</text>
+      <text x="0" y="90" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12">4. 将 Ticket 与业务表单组装</text>
+      <text x="0" y="115" fill="#34d399" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="bold">5. 提交至后端登录/支付接口</text>
+    </g>
+
+    <rect x="15" y="200" width="190" height="40" rx="6" fill="#020617" stroke="#1e293b"/>
+    <text x="110" y="225" fill="#64748b" font-family="monospace" font-size="11" text-anchor="middle">SlideCaptchaClient SDK</text>
+  </g>
+
+  <!-- Node 2: Captcha Core Engine (Center) -->
+  <g transform="translate(370, 110)">
+    <rect width="220" height="260" rx="12" fill="#064e3b" fill-opacity="0.3" stroke="#10b981" stroke-width="1.5"/>
+    <rect width="220" height="36" rx="12" fill="#064e3b" fill-opacity="0.8"/>
+    <text x="110" y="24" fill="#6ee7b7" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">
+      🛡️ 验证码安全引擎服务
+    </text>
+
+    <!-- Content inside node -->
+    <g transform="translate(15, 55)">
+      <text x="0" y="15" fill="#a7f3d0" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12">• 纯矢量 SVG 缺口图切片</text>
+      <text x="0" y="40" fill="#a7f3d0" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12">• targetX 坐标绝不出域</text>
+      <text x="0" y="65" fill="#a7f3d0" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12">• 菲茨定律 + 微颤熵评估</text>
+      <text x="0" y="90" fill="#a7f3d0" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12">• HMAC-SHA256 签发凭证</text>
+      <text x="0" y="115" fill="#a7f3d0" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12">• 单次消费（用后即焚防重放）</text>
+    </g>
+
+    <rect x="15" y="200" width="190" height="40" rx="6" fill="#020617" stroke="#10b981" stroke-opacity="0.4"/>
+    <text x="110" y="225" fill="#34d399" font-family="monospace" font-size="11" text-anchor="middle">SlideCaptchaServer SDK</text>
+  </g>
+
+  <!-- Node 3: Business Backend (Right) -->
+  <g transform="translate(680, 110)">
+    <rect width="220" height="260" rx="12" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect width="220" height="36" rx="12" fill="#0369a1" fill-opacity="0.6"/>
+    <text x="110" y="24" fill="#bae6fd" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">
+      🏢 业务系统宿主后端
+    </text>
+
+    <!-- Content inside node -->
+    <g transform="translate(15, 55)">
+      <text x="0" y="15" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12">• 接收登录 / 注册 / 发信请求</text>
+      <text x="0" y="40" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12">• 提取 captcha_ticket 字段</text>
+      <text x="0" y="65" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="bold">• 调用 validateTicket(ticket)</text>
+      <text x="0" y="90" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12">• 核销通过才执行密码校验</text>
+      <text x="0" y="115" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12">• 彻底阻断绕过前端的撞库</text>
+    </g>
+
+    <rect x="15" y="200" width="190" height="40" rx="6" fill="#020617" stroke="#38bdf8" stroke-opacity="0.4"/>
+    <text x="110" y="225" fill="#38bdf8" font-family="monospace" font-size="11" text-anchor="middle">Node / Java / Go / Python</text>
+  </g>
+
+  <!-- Connecting Arrows -->
+  <!-- Step 1 & 2: Client <-> Captcha Server (Top arrow) -->
+  <path d="M 280 160 L 365 160" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="325" y="150" fill="#10b981" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">① 行为验证</text>
+
+  <path d="M 365 200 L 285 200" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="325" y="218" fill="#10b981" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">② 下发 Ticket</text>
+
+  <!-- Step 3: Client -> Business Server (Bottom arched arrow) -->
+  <path d="M 170 370 C 170 410, 790 410, 790 375" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <text x="480" y="405" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">
+    ③ 提交业务数据 + ticket 到宿主后端
+  </text>
+
+  <!-- Step 4: Business Server -> Captcha Server (validateTicket) -->
+  <path d="M 680 230 L 595 230" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <text x="635" y="222" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">④ 二次核销</text>
+</svg>
