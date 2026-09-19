@@ -1,0 +1,6 @@
+{
+  "name": "SlideCaptcha 滑动验证码引擎与SDK",
+  "description": "高可用高防破解的滑动拼图人机行为验证码系统，具备生物行为轨迹分析、服务端签名防伪、Node.js SDK及前端开箱即用组件。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
