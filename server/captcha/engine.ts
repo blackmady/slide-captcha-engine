@@ -3,7 +3,7 @@
  * Handles procedural puzzle image generation (SVG-based for zero native dependencies),
  * cryptographic challenge tokens, and target coordinates obfuscation.
  */
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 
 export interface ChallengeData {
   id: string;

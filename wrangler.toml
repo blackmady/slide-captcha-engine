@@ -1,0 +1,7 @@
+name = "slide-captcha-engine"
+pages_build_output_dir = "dist"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+CAPTCHA_SECRET_KEY = "enterprise-slide-captcha-master-key-32bytes"

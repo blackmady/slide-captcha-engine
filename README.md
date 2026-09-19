@@ -260,6 +260,21 @@ public class CaptchaService {
 
 ---
 
+## ☁️ Cloudflare Pages / Workers 一键部署指南
+
+本项目已完全支持 Cloudflare 边缘计算无服务器环境（零 C++ 依赖、原生 `node:crypto` 兼容）：
+
+### 快速部署步骤：
+1. **推送代码至 GitHub**；
+2. 登录 **Cloudflare Dashboard** -> **Workers & Pages** -> **Create application** -> **Pages** -> 选择本仓库；
+3. **构建设置 (Build Settings)**：
+   - **Framework preset**：`Vite`
+   - **Build command**：`npm run build`
+   - **Build output directory**：`dist`
+4. 项目根目录下已提供 `wrangler.toml` 与 `functions/api/[[catchall]].ts`，Cloudflare 会全自动识别并部署为全球边缘函数（无需额外部署独立后端服务器）。
+
+---
+
 ## 📄 开源许可证
 
 本项目基于 [MIT License](LICENSE) 协议发布，商业友好，可无限制集成至企业自建系统、移动端 H5 及各类管理控制台。
