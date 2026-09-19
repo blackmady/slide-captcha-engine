@@ -44,16 +44,28 @@ export class CaptchaSecurityStore {
 
   private totalScoresSum: number = 0;
   private totalScoredCount: number = 0;
+  private lastCleanupAt: number = 0;
 
   constructor() {
-    // Periodic garbage collection every 60 seconds
-    setInterval(() => this.cleanup(), 60000);
+    // Cloudflare Workers / Serverless environments disallow setInterval() in the global scope.
+    // Cleanup is performed passively on requests when lastCleanupAt > 60s.
+  }
+
+  /**
+   * Passive cleanup helper to remove expired records without timers
+   */
+  private passiveCleanup(): void {
+    const now = Date.now();
+    if (now - this.lastCleanupAt < 60000) return;
+    this.lastCleanupAt = now;
+    this.cleanup();
   }
 
   /**
    * Records a newly generated challenge
    */
   public recordChallengeGenerated(): void {
+    this.passiveCleanup();
     this.metrics.totalChallengesGenerated++;
   }
 
